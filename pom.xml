@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>springboot-devops</groupId>
-	<artifactId>springboot-devops</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>springboot-devops</name>
+
+
+
+	<scm>
+		<connection>scm:git@github.com:chennareddipalligayathri/spring-devops.git</connection>
+		<developerConnection>scm:git:git@github.com:chennareddipalligayathri/spring-devops.git</developerConnection>
+		<url>git@github.com:chennareddipalligayathri/spring-devops.git</url>
+		<tag>v0.0.2</tag>
+	</scm>
+
+
+
+	<groupId>spring-devops</groupId>
+	<artifactId>spring-devops</artifactId>
+
+	<version>1.0</version>
+
+	
+
+
+	<packaging>jar</packaging>
+	<name>spring-devops</name>
 	<description>Devops</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<surefire.version>2.17</surefire.version>
+<jacoco.version>0.7.9</jacoco.version>
 	</properties>
-	
-<distributionManagement>
-  <repository>
-    <id>release</id>
-    <name>releases</name>
-    <url>http://localhost:8081/artifactory/libs-release-local</url>
-  </repository>
-  <snapshotRepository>
-    <id>snapshot</id>
-    <name>snapshots</name>
-    <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
-  </snapshotRepository>
-</distributionManagement>
-<scm>
-  <connection>scm:git:git@github.com:chennareddipalligayathri/spring-devops.git</connection>
-  <developerConnection>scm:git:git@github.com:chennareddipalligayathri/spring-devops.git</developerConnection>
-  <url>git@github.com:chennareddipalligayathri/spring-devops.git</url>
-  <tag>HEAD</tag>
-</scm>
-	
+
+	<distributionManagement>
+		<repository>
+			<id>release</id>
+			<name>releases</name>
+			<url>http://localhost:8081/artifactory/libs-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot</id>
+			<name>snapshots</name>
+			<url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -53,6 +65,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -80,12 +96,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -94,6 +104,86 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+			
+
+
+<!-- <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>${surefire.version}</version>
+</plugin>
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>${jacoco.version}</version>
+    <executions>
+        <execution>
+            <id>default-prepare-agent</id>
+            <goals><goal>prepare-agent</goal></goals>
+        </execution>
+        <execution>
+            <id>default-report</id>
+            <phase>prepare-package</phase>
+            <goals><goal>report</goal></goals>
+        </execution>
+    </executions>
+</plugin> -->
+<!--new plugin -->
+<plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.6</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>COMPLEXITY</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.0</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>com/eldisol/jacoboot/JacobootApplication.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+			
+			
 		</plugins>
 	</build>
 
