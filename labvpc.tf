@@ -1,17 +1,18 @@
-name   = "tag:Name"
-    values = ["pri*"]
-  }
+provider "aws" {
+  region = "us-east-1"
 }
-output "Private_Subnet" {
-  value = data.aws_subnet.private-subnet.id
+variable "hw" {
+ type = string
+ default = "t2.nano"
+}
+resource "aws_instance" "gayathri-cloud" {
+  ami           = "ami-0dc2d3e4c0f9ebd18"
+  instance_type = var.hw
+  tags = {
+    Name = "Gagandeep-dev-instance"
+  }
 }
 
-resource "aws_instance" "G1" {
-  ami           = data.aws_ami.latest-os.id
-  instance_type = "t2.micro"
-  subnet_id     = var.server == "web" ? data.aws_subnet.public-subnet.id : data.aws_subnet.private-subnet.id
-  tags = {
-    Env  = "Prod"
-    Name = "Gayathri_lab"
-  }
+output "MY_PUBLIC_IP" {
+ value = aws_instance.gagan-server1.public_ip
 }
